@@ -22,12 +22,12 @@ const authSchema = new mongoose.Schema({
 });
 
 authSchema.methods = {
-  createAccessToken: async () => {
+  createAccessToken: async (foundUser) => {
     try {
       let payload = {
-        userType: this.userType,
-        email: this.email,
-        name: this.fname,
+        userType: foundUser.userType,
+        email: foundUser.email,
+        name: foundUser.fname,
       };
       let accessToken = jwt.sign(payload, ACCESS_SECRET, { expiresIn: "5m" });
       return accessToken;
@@ -37,12 +37,12 @@ authSchema.methods = {
     }
   },
 
-  createRefreshToken: async () => {
+  createRefreshToken: async (foundUser) => {
     try {
       let payload = {
-        userType: this.userType,
-        email: this.email,
-        name: this.fname,
+        userType: foundUser.userType,
+        email: foundUser.email,
+        name: foundUser.fname,
       };
       let refreshToken = jwt.sign(payload, REFRESH_SECRET, { expiresIn: "1d" });
       await new Token({ token: refreshToken }).save();

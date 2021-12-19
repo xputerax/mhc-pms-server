@@ -1,16 +1,23 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 const router = express.Router();
 
-import authController from "../controllers/authController.js";
+import {
+  signup,
+  signin,
+  generateRefreshToken,
+  logout,
+} from "../controllers/authController.js";
 import middleware from "../middlewares/index.js";
 
-router.post("/auth/signup", authController.signup);
+router.post("/auth/signup", signup);
 
-router.post("/auth/singin", authController.singin);
+router.post("/auth/signin", signin);
 
-router.post("/auth/refresh", authController.generateRefreshToken);
+router.post("/auth/refresh", generateRefreshToken);
 
-router.delete("/auth/logout", authController.logout);
+router.delete("/auth/logout", logout);
 
 // router.get("/protected_resource", middleware.checkAuth, (req, res) => {
 //     return res.status(200).json({ user: req.user });
