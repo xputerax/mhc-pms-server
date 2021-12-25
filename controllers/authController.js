@@ -55,7 +55,7 @@ const signin = (req, res) => {
           .status(500)
           .json({ error: true, errorMsg: "Internal Server Error!" });
       } else {
-        if (foundUser) {
+        if (foundUser && foundUser.verified) {
           bcrypt.compare(password, foundUser.password, async (err, result) => {
             if (result === true) {
               const accessToken = await foundUser.createAccessToken(foundUser);
@@ -74,6 +74,14 @@ const signin = (req, res) => {
                 .json({ error: true, errorMsg: "Incorrect Password!" });
             }
           });
+        } else if (foundUser && !foundUser.verified) {
+          return res
+            .status(401)
+            .json({
+              error: true,
+              errorMsg:
+                "This email is not verified by the Admin. Please login after the verification process is completed.",
+            });
         } else {
           return res
             .status(404)
