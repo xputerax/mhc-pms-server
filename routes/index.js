@@ -9,7 +9,7 @@ import {
   generateRefreshToken,
   logout,
 } from "../controllers/authController.js";
-import { addNew, updateFee } from "../controllers/admin.js";
+import { docList, addNew, updateFee } from "../controllers/admin.js";
 import middleware from "../middlewares/index.js";
 
 router.post("/auth/signup", signup);
@@ -19,6 +19,10 @@ router.post("/auth/signin", signin);
 router.post("/auth/refresh", generateRefreshToken);
 
 router.delete("/auth/logout", logout);
+
+router.get("/doctor/list", middleware, (req, res) => {
+  docList(req, res);
+});
 
 router.post("/doctor/new", middleware, (req, res) => {
   addNew(req, res);

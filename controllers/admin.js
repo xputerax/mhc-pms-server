@@ -1,5 +1,21 @@
 import doctorList from "../models/doctorList.js";
 
+const docList = async (req, res) => {
+  try {
+    const dlist = await doctorList.find({});
+    if (dlist) {
+      return res.status(200).json(dlist);
+    } else {
+      return res.status(404).json({ error: true, errorMsg: "List not found!" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
 const addNew = async (req, res) => {
   try {
     const newDoctor = req.body;
@@ -41,4 +57,4 @@ const updateFee = async (req, res) => {
   }
 };
 
-export { addNew, updateFee };
+export { docList, addNew, updateFee };
