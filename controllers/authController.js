@@ -75,13 +75,11 @@ const signin = (req, res) => {
             }
           });
         } else if (foundUser && !foundUser.verified) {
-          return res
-            .status(401)
-            .json({
-              error: true,
-              errorMsg:
-                "This email is not verified by the Admin. Please login after the verification process is completed.",
-            });
+          return res.status(401).json({
+            error: true,
+            errorMsg:
+              "This email is not verified by the Admin. Please login after the verification process is completed.",
+          });
         } else {
           return res
             .status(404)
@@ -112,9 +110,7 @@ const generateRefreshToken = async (req, res) => {
           .json({ error: true, errorMsg: "Token Expired!" });
       } else {
         const payload = jwt.verify(storedToken.token, REFRESH_SECRET);
-        const accessToken = jwt.sign(payload, ACCESS_SECRET, {
-          expiresIn: "1d",
-        });
+        const accessToken = jwt.sign(payload, ACCESS_SECRET);
         return res.status(200).json({ accessToken });
       }
     }
