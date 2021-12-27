@@ -19,10 +19,20 @@ const updateFee = async (req, res) => {
   const filter = { docName: req.body.docName };
   const newFee = parseInt(req.body.fee);
   try {
-    await doctorList.findOneAndUpdate(filter, { fee: newFee });
-    return res
-      .status(200)
-      .json({ error: false, msg: "Fee Updated Successfully." });
+    const updated = await doctorList.findOneAndUpdate(
+      filter,
+      { fee: newFee },
+      { new: true }
+    );
+    if (updated) {
+      return res
+        .status(200)
+        .json({ error: false, msg: "Fee Updated Successfully." });
+    } else {
+      res
+        .status(304)
+        .json({ error: true, errorMsg: "Not able to update the fee." });
+    }
   } catch (error) {
     console.error(error);
     return res
