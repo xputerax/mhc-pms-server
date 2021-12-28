@@ -9,7 +9,14 @@ import {
   generateRefreshToken,
   logout,
 } from "../controllers/authController.js";
-import { docList, addNew, updateFee } from "../controllers/admin.js";
+import {
+  docList,
+  addNew,
+  updateFee,
+  unverified,
+  verify,
+  reject,
+} from "../controllers/admin.js";
 import middleware from "../middlewares/index.js";
 
 router.post("/auth/signup", signup);
@@ -32,8 +39,16 @@ router.post("/doctor/fee", middleware, (req, res) => {
   updateFee(req, res);
 });
 
-// router.get("/protected_resource", middleware.checkAuth, (req, res) => {
-//   return res.status(200).json({ user: req.user });
-// });
+router.get("/users/unverified", middleware, (req, res) => {
+  unverified(req, res);
+});
+
+router.post("/users/unverified/verify", middleware, (req, res) => {
+  verify(req, res);
+});
+
+router.delete("/users/unverified/reject", middleware, (req, res) => {
+  reject(req, res);
+});
 
 export default router;
