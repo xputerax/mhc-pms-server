@@ -16,6 +16,7 @@ import {
   unverified,
   verify,
   reject,
+  generateStats,
 } from "../controllers/admin.js";
 import middleware from "../middlewares/index.js";
 
@@ -49,6 +50,10 @@ router.post("/users/unverified/verify", middleware, (req, res) => {
 
 router.delete("/users/unverified/reject", middleware, (req, res) => {
   reject(req, res);
+});
+
+router.get("/generate/stats", middleware, (req, res) => {
+  generateStats(req, res);
 });
 
 export default router;

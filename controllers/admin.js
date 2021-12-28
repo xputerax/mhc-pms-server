@@ -122,4 +122,54 @@ const reject = async (req, res) => {
   }
 };
 
-export { docList, addNew, updateFee, unverified, verify, reject };
+const generateStats = async (req, res) => {
+  try {
+    const users = await auth.find({});
+    const docList = await doctorList.find({});
+    if (users.length > 0 && docList.length > 0) {
+      const patients = users.filter((user) => user.userType === "patient");
+      const doctors = users.filter(
+        (user) => user.userType === "doctor" && user.verified
+      );
+      const staffs = users.filter(
+        (user) => user.userType === "staff" && user.verified
+      );
+      const nop = patients.length;
+      const nod = doctors.length;
+      const nos = staffs.length;
+      let mwd = docList[0].wIds.length;
+      docList.forEach((doc) => {
+        if (doc.wIds.length > mwd) {
+          mwd = doc.wIds.length;
+        }
+      });
+      const dmwds = docList.filter((doc) => doc.wIds.length == mwd);
+      let dmwd = "";
+      dmwds.forEach((dc) => {
+        dmwd = dmwd + dc.docName + ", ";
+      });
+      return res
+        .status(200)
+        .json({ mrd: "Not available", nop, nod, nos, dmwd });
+    } else {
+      return res
+        .status(404)
+        .json({ error: true, errorMsg: "User List Not Found!" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
+export {
+  docList,
+  addNew,
+  updateFee,
+  unverified,
+  verify,
+  reject,
+  generateStats,
+};
