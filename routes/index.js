@@ -18,6 +18,11 @@ import {
   reject,
   generateStats,
 } from "../controllers/admin.js";
+import {
+  bookAppointment,
+  duePayment,
+  makePayment,
+} from "../controllers/patient.js";
 import middleware from "../middlewares/index.js";
 
 router.post("/auth/signup", signup);
@@ -54,6 +59,18 @@ router.delete("/users/unverified/reject", middleware, (req, res) => {
 
 router.get("/generate/stats", middleware, (req, res) => {
   generateStats(req, res);
+});
+
+router.post("/booking/appointment", middleware, (req, res) => {
+  bookAppointment(req, res);
+});
+
+router.get("/booking/duepayment", middleware, (req, res) => {
+  duePayment(req, res);
+});
+
+router.post("/booking/payment", middleware, (req, res) => {
+  makePayment(req, res);
 });
 
 export default router;
