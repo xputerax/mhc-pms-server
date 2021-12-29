@@ -22,6 +22,8 @@ import {
   bookAppointment,
   duePayment,
   makePayment,
+  myAppointments,
+  cancelAppointment,
 } from "../controllers/patient.js";
 import middleware from "../middlewares/index.js";
 
@@ -71,6 +73,14 @@ router.get("/booking/duepayment", middleware, (req, res) => {
 
 router.post("/booking/payment", middleware, (req, res) => {
   makePayment(req, res);
+});
+
+router.get("/patient/appointments", middleware, (req, res) => {
+  myAppointments(req, res);
+});
+
+router.delete("/patient/appointments/cancel", middleware, (req, res) => {
+  cancelAppointment(req, res);
 });
 
 export default router;

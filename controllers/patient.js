@@ -67,4 +67,57 @@ const makePayment = async (req, res) => {
   }
 };
 
-export { bookAppointment, duePayment, makePayment };
+const myAppointments = async (req, res) => {
+  try {
+    const appointments = await appointment.find({ payment: true });
+    if (appointments.length > 0) {
+      return res.status(200).json(appointments);
+    } else {
+      return res
+        .status(404)
+        .json({ error: true, errorMsg: "No appointment found!" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
+const cancelAppointment = async (req, res) => {
+  const filter = {
+    $and: [
+      { pemail: req.body.pemail },
+      { demail: req.body.demail },
+      { doa: req.body.doa },
+    ],
+  };
+  try {
+    appointment.deleteOne(filter, (err) => {
+      if (err) {
+        console.log(err);
+        return res
+          .status(304)
+          .json({ error: true, errorMsg: "Something went wrong!" });
+      } else {
+        return res
+          .status(200)
+          .json({ error: false, msg: "Appointment Cancelled!" });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
+export {
+  bookAppointment,
+  duePayment,
+  makePayment,
+  myAppointments,
+  cancelAppointment,
+};
