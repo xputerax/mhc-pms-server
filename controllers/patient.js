@@ -114,10 +114,29 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
+const prescriptions = async (req, res) => {
+  try {
+    const prescriptions = await appointment.find({ prescribed: true });
+    if (prescriptions.length > 0) {
+      return res.status(200).json(prescriptions);
+    } else {
+      return res
+        .status(404)
+        .json({ error: true, errorMsg: "No prescription found!" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
 export {
   bookAppointment,
   duePayment,
   makePayment,
   myAppointments,
   cancelAppointment,
+  prescriptions,
 };

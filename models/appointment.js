@@ -11,6 +11,14 @@ const appointmentSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  prescribed: {
+    type: Boolean,
+    default: false,
+  },
+  file: {
+    type: String,
+    default: "/downloadFiles/prescription.pdf",
+  },
 });
 
 export default mongoose.model("Appointment", appointmentSchema);
