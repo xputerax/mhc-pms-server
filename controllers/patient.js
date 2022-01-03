@@ -132,6 +132,78 @@ const prescriptions = async (req, res) => {
   }
 };
 
+const writeFeedback = async (req, res) => {
+  const filter = {
+    $and: [
+      { pemail: req.body.pemail },
+      { demail: req.body.demail },
+      { doa: req.body.doa },
+    ],
+  };
+  const newFeedback = {
+    feedback: true,
+    review: req.body.review,
+    rating: req.body.rating && parseInt(req.body.rating),
+  };
+  try {
+    const updated = await appointment.findOneAndUpdate(filter, newFeedback, {
+      new: true,
+    });
+    if (updated) {
+      return res.status(200).json({
+        error: false,
+        msg: "Feedback updated!",
+      });
+    } else {
+      res.status(304).json({
+        error: true,
+        errorMsg: "Problem submitting feedback. Try again!",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
+const deleteFeedback = async (req, res) => {
+  const filter = {
+    $and: [
+      { pemail: req.body.pemail },
+      { demail: req.body.demail },
+      { doa: req.body.doa },
+    ],
+  };
+  const newFeedback = {
+    feedback: false,
+    review: "",
+    rating: 0,
+  };
+  try {
+    const updated = await appointment.findOneAndUpdate(filter, newFeedback, {
+      new: true,
+    });
+    if (updated) {
+      return res.status(200).json({
+        error: false,
+        msg: "Feedback Deleted!",
+      });
+    } else {
+      res.status(304).json({
+        error: true,
+        errorMsg: "Problem deleting feedback. Try again!",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
 export {
   bookAppointment,
   duePayment,
@@ -139,4 +211,6 @@ export {
   myAppointments,
   cancelAppointment,
   prescriptions,
+  writeFeedback,
+  deleteFeedback,
 };

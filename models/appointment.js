@@ -19,6 +19,18 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     default: "/downloadFiles/prescription.pdf",
   },
+  feedback: {
+    type: Boolean,
+    default: false,
+  },
+  review: {
+    type: String,
+    default: "",
+  },
+  rating: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export default mongoose.model("Appointment", appointmentSchema);
