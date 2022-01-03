@@ -1,5 +1,6 @@
 import doctorList from "../models/doctorList.js";
 import auth from "../models/auth.js";
+import appointment from "../models/appointment.js";
 
 const docList = async (req, res) => {
   try {
@@ -126,6 +127,7 @@ const generateStats = async (req, res) => {
   try {
     const users = await auth.find({});
     const docList = await doctorList.find({});
+    const feedbacks = await appointment.find({ feedback: true });
     if (users.length > 0 && docList.length > 0) {
       const patients = users.filter((user) => user.userType === "patient");
       const doctors = users.filter(
@@ -148,9 +150,25 @@ const generateStats = async (req, res) => {
       dmwds.forEach((dc) => {
         dmwd = dmwd + dc.docName + ", ";
       });
+
+      let mrd;
+      if (feedbacks.length > 0) {
+        let mr = feedbacks[0].rating;
+        feedbacks.forEach((feedback) => {
+          if (feedback.rating > mr) {
+            mr = feedback.rating;
+          }
+        });
+        let mrds = feedbacks.filter((feedbck) => feedbck.rating === mr);
+        mrd = "";
+        mrds.forEach((mrdoc) => {
+          mrd = mrd + mrdoc.doctor + ", ";
+        });
+      }
+
       return res
         .status(200)
-        .json({ mrd: "Not available", nop, nod, nos, dmwd });
+        .json({ mrd: mrd ? mrd : "N/A", nop, nod, nos, dmwd });
     } else {
       return res
         .status(404)
