@@ -29,6 +29,7 @@ import {
   writeFeedback,
   deleteFeedback,
 } from "../controllers/patient.js";
+import { uploadPrescription } from "../controllers/doctor.js";
 import middleware from "../middlewares/index.js";
 
 router.post("/auth/signup", signup);
@@ -101,6 +102,10 @@ router.post("/patient/feedback/write", middleware, (req, res) => {
 
 router.post("/patient/feedback/delete", middleware, (req, res) => {
   deleteFeedback(req, res);
+});
+
+router.post("/doctor/prescription/upload", middleware, (req, res) => {
+  uploadPrescription(req, res);
 });
 
 export default router;
