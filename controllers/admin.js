@@ -182,6 +182,24 @@ const generateStats = async (req, res) => {
   }
 };
 
+const patientFeedbacks = async (req, res) => {
+  try {
+    const feedbacks = await appointment.find({ feedback: true });
+    if (feedbacks.length > 0) {
+      return res.status(200).json(feedbacks);
+    } else {
+      return res
+        .status(404)
+        .json({ error: true, errorMsg: "Unable to load feedbacks!" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: true, errorMsg: "Internal Server Error!" });
+  }
+};
+
 export {
   docList,
   addNew,
@@ -190,4 +208,5 @@ export {
   verify,
   reject,
   generateStats,
+  patientFeedbacks,
 };

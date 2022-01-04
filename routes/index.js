@@ -17,6 +17,7 @@ import {
   verify,
   reject,
   generateStats,
+  patientFeedbacks,
 } from "../controllers/admin.js";
 import {
   bookAppointment,
@@ -64,6 +65,10 @@ router.delete("/users/unverified/reject", middleware, (req, res) => {
 
 router.get("/generate/stats", middleware, (req, res) => {
   generateStats(req, res);
+});
+
+router.get("/patient/feedbacks", middleware, (req, res) => {
+  patientFeedbacks(req, res);
 });
 
 router.post("/booking/appointment", middleware, (req, res) => {
