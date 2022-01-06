@@ -6,11 +6,16 @@ import api from "./routes/index.js";
 
 const app = express();
 
+const { USER_NAME, PASSWORD } = process.env;
+
 mongoose
-  .connect("mongodb://localhost:27017/mhcpmsDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `mongodb+srv://${USER_NAME}:${PASSWORD}@cluster0.kmfwq.mongodb.net/mhcpmsDB`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("connected to DB"))
   .catch((err) => console.log(err));
 
