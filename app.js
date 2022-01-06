@@ -7,15 +7,13 @@ import api from "./routes/index.js";
 const app = express();
 
 const { USER_NAME, PASSWORD } = process.env;
+const uri = `mongodb://${USER_NAME}:${PASSWORD}@cluster0-shard-00-00.kmfwq.mongodb.net:27017,cluster0-shard-00-01.kmfwq.mongodb.net:27017,cluster0-shard-00-02.kmfwq.mongodb.net:27017/mhcpmsDB?ssl=true&replicaSet=atlas-a9v4hk-shard-0&authSource=admin&retryWrites=true&w=majority`;
 
 mongoose
-  .connect(
-    `mongodb+srv://${USER_NAME}:${PASSWORD}@cluster0.kmfwq.mongodb.net/mhcpmsDB`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("connected to DB"))
   .catch((err) => console.log(err));
 
