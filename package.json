@@ -5,10 +5,12 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "SandeepKrSuman",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
