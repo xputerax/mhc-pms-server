@@ -12,7 +12,8 @@
   "author": "SandeepKrSuman",
   "license": "MIT",
   "engines": {
-    "node": "14.15.0"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
