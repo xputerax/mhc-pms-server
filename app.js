@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "public/index.html");
+  res.sendFile("public/index.html", { root: __dirname });
 });
 
 app.use("/api", api);
