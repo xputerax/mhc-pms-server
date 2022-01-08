@@ -22,7 +22,7 @@ mongoose
   .then(() => console.log("connected to DB"))
   .catch((err) => console.log(err));
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
 
 app.use(
   cors({
@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "public/index.html");
 });
 
 app.use("/api", api);
