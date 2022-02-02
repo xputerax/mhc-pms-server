@@ -1,6 +1,9 @@
 import appointment from "../models/appointment.js";
+import * as path from "path";
+const file_path = path.join("/public/uploads");
 
 const uploadPrescription = async (req, res) => {
+  const uploaded_path = path.join(file_path, "/", req.file.filename);
   const filter = {
     $and: [
       { pemail: req.body.pemail },
@@ -11,7 +14,7 @@ const uploadPrescription = async (req, res) => {
   try {
     const updated = await appointment.findOneAndUpdate(
       filter,
-      { prescribed: true, file: req.file.path },
+      { prescribed: true, file: uploaded_path },
       { new: true }
     );
     if (updated) {
