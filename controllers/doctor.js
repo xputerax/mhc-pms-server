@@ -12,6 +12,7 @@ const uploadPrescription = async (req, res) => {
     const updated = await appointment.findOneAndUpdate(
       filter,
       { prescribed: true },
+      { file: req.file.path },
       { new: true }
     );
     if (updated) {

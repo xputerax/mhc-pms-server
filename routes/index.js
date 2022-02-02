@@ -31,6 +31,7 @@ import {
 } from "../controllers/patient.js";
 import { uploadPrescription } from "../controllers/doctor.js";
 import middleware from "../middlewares/index.js";
+import handleFileUpload from "../middlewares/handleMulter.js";
 
 router.post("/auth/signup", signup);
 
@@ -104,8 +105,12 @@ router.post("/patient/feedback/delete", middleware, (req, res) => {
   deleteFeedback(req, res);
 });
 
-router.post("/doctor/prescription/upload", middleware, (req, res) => {
-  uploadPrescription(req, res);
-});
+router.post(
+  "/doctor/prescription/upload",
+  [middleware, handleFileUpload],
+  (req, res) => {
+    uploadPrescription(req, res);
+  }
+);
 
 export default router;
