@@ -23,6 +23,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.static("public"));
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 app.use(cors());
 
