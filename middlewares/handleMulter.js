@@ -11,10 +11,10 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
+    cb(null, file.fieldname + "-" + uniqueSuffix + file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: { fileSize: 1000000 } });
 
 export default upload.single("prescriptionFile");
