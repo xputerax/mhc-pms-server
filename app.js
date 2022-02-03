@@ -5,9 +5,12 @@ import cors from "cors";
 import api from "./routes/index.js";
 
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import path, { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+import fs from "fs";
+fs.mkdirSync(path.join(__dirname, "public", "uploads"), { recursive: true });
 
 const app = express();
 
