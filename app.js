@@ -9,10 +9,14 @@ import path, { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+import morgan from "morgan";
+
 import fs from "fs";
 fs.mkdirSync(path.join(__dirname, "public", "uploads"), { recursive: true });
 
 const app = express();
+
+app.use(morgan('combined'));
 
 const { USER_NAME, PASSWORD, CONNECTION_STRING } = process.env;
 // const uri = `mongodb://${USER_NAME}:${PASSWORD}@cluster0-shard-00-00.kmfwq.mongodb.net:27017,cluster0-shard-00-01.kmfwq.mongodb.net:27017,cluster0-shard-00-02.kmfwq.mongodb.net:27017/mhcpmsDB?ssl=true&replicaSet=atlas-a9v4hk-shard-0&authSource=admin&retryWrites=true&w=majority`;
