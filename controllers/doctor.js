@@ -6,9 +6,9 @@ const uploadPrescription = async (req, res) => {
   const uploaded_path = path.join(file_path, "/", req.file.filename);
   const filter = {
     $and: [
-      { pemail: req.body.pemail },
-      { demail: req.body.demail },
-      { doa: req.body.doa },
+      { patientEmail: req.body.patientEmail },
+      { doctorEmail: req.body.doctorEmail },
+      { appointmentDate: req.body.appointmentDate },
     ],
   };
   try {

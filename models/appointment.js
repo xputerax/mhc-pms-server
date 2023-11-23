@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const appointmentSchema = new mongoose.Schema({
   patient: String,
   doctor: String,
-  pemail: String,
-  demail: String,
+  patientEmail: String,
+  doctorEmail: String,
   date: String,
-  doa: String,
+  appointmentDate: String,
   payment: {
     type: Boolean,
     default: false,
