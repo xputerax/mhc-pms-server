@@ -25,7 +25,7 @@ const signup = async (req, res) => {
               userType: req.body.userType,
               fname: req.body.fname,
               lname: req.body.lname,
-              degree: req.body.degr,
+              degree: req.body.degree,
               email: req.body.email,
               password: hash,
               verified: req.body.verified,
