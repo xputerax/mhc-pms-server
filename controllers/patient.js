@@ -133,6 +133,34 @@ const prescriptions = async (req, res) => {
 };
 
 const writeFeedback = async (req, res) => {
+  const { review } = req.body.review;
+  const { rating } = req.body.rating;
+
+  // Perform backend validation - ryan
+  // check blank and empty feedback
+  if (!review || review.trim() === '') {
+    return res.status(400).json({
+      error: false,
+      errorMsg: 'Feedback cannot be empty',
+    });
+  // Add validation for feedback length
+  }else if
+   (review.length > 500) {
+    return res.status(400).json({
+      error: false,
+      errorMsg: 'Feedback cannot exceed 500 characters',
+    });
+  }
+
+  //check rating
+  if(!rating) {
+    return res.status(400).json({
+      error: false,
+      errorMsg: 'Rating cannot be empty',
+    });
+  }
+  //????
+
   const filter = {
     $and: [
       { pemail: req.body.pemail },
@@ -169,6 +197,8 @@ const writeFeedback = async (req, res) => {
 };
 
 const deleteFeedback = async (req, res) => {
+
+  
   const filter = {
     $and: [
       { pemail: req.body.pemail },
@@ -182,6 +212,11 @@ const deleteFeedback = async (req, res) => {
     rating: 0,
   };
   try {
+    //author apply soft delete records
+    //The deleteFeedback function is not actually deleting the feedback data;
+    //instead, it's updating the existing feedback data to mark it as deleted.
+    //This will cause data redundency in database
+    /*
     const updated = await appointment.findOneAndUpdate(filter, newFeedback, {
       new: true,
     });
@@ -196,12 +231,33 @@ const deleteFeedback = async (req, res) => {
         errorMsg: "Problem deleting feedback. Try again!",
       });
     }
+    */
+
+
+    //true deletion of the feedback data from the database
+    const result = await appointment.deleteOne(filter);
+
+    if (result.deletedCount > 0) {
+      return res.status(200).json({
+        error: false,
+        msg: "Feedback Deleted!",
+      });
+    } else {
+      return res.status(404).json({
+        error: true,
+        errorMsg: "Feedback not found or already deleted.",
+      });
+    }
+
   } catch (error) {
     console.error(error);
     return res
       .status(500)
       .json({ error: true, errorMsg: "Internal Server Error!" });
   }
+
+  
+
 };
 
 export {
