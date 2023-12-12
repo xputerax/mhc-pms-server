@@ -37,9 +37,9 @@ const duePayment = async (req, res) => {
 const makePayment = async (req, res) => {
   const filter = {
     $and: [
-      { pemail: req.body.pemail },
-      { demail: req.body.demail },
-      { doa: req.body.doa },
+      { patientEmail: req.body.patientEmail },
+      { doctorEmail: req.body.doctorEmail },
+      { appointmentDate: req.body.appointmentDate },
     ],
   };
   try {
@@ -88,9 +88,9 @@ const myAppointments = async (req, res) => {
 const cancelAppointment = async (req, res) => {
   const filter = {
     $and: [
-      { pemail: req.body.pemail },
-      { demail: req.body.demail },
-      { doa: req.body.doa },
+      { patientEmail: req.body.patientEmail },
+      { doctorEmail: req.body.doctorEmail },
+      { appointmentDate: req.body.appointmentDate },
     ],
   };
   try {
@@ -135,9 +135,9 @@ const prescriptions = async (req, res) => {
 const writeFeedback = async (req, res) => {
   const filter = {
     $and: [
-      { pemail: req.body.pemail },
-      { demail: req.body.demail },
-      { doa: req.body.doa },
+      { patientEmail: req.body.patientEmail },
+      { doctorEmail: req.body.doctorEmail },
+      { appointmentDate: req.body.appointmentDate },
     ],
   };
   const newFeedback = {
@@ -171,9 +171,9 @@ const writeFeedback = async (req, res) => {
 const deleteFeedback = async (req, res) => {
   const filter = {
     $and: [
-      { pemail: req.body.pemail },
-      { demail: req.body.demail },
-      { doa: req.body.doa },
+      { patientEmail: req.body.patientEmail },
+      { doctorEmail: req.body.doctorEmail },
+      { appointmentDate: req.body.appointmentDate },
     ],
   };
   const newFeedback = {
