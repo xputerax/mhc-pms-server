@@ -39,6 +39,12 @@ export const AuthSchema = new mongoose.Schema<Auth, AuthModel, AuthMethods>({
   },
 });
 
+export type JwtPayload = {
+  userType: string,
+  email: string,
+  name: string,
+}
+
 AuthSchema.methods = {
   createAccessToken: function (this: Auth): string {
     try {
@@ -57,7 +63,7 @@ AuthSchema.methods = {
 
   createRefreshToken: async function (this: Auth): Promise<String> {
     try {
-      let payload = {
+      let payload: JwtPayload = {
         userType: this.userType,
         email: this.email,
         name: this.fname,

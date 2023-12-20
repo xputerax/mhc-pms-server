@@ -117,6 +117,8 @@ const prescriptions = async (req: express.Request, res: express.Response) => {
   }
 };
 
+// TODO: proper form validation
+// TODO: request schema
 const writeFeedback = async (req: express.Request, res: express.Response) => {
   const { review } = req.body.review;
   const { rating } = req.body.rating;
