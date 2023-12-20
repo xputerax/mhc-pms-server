@@ -1,4 +1,5 @@
 import express from "express";
+import middleware from "../middlewares/index.js";
 
 import {
   docList,
