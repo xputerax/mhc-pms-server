@@ -1,0 +1,10 @@
+# Setup
+
+## Environment Variables
+
+```
+PORT
+CONNECTION_STRING
+ACCESS_SECRET
+REFRESH_SECRET
+```
