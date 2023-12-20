@@ -1,9 +1,9 @@
-import '../env.js';
+import '../env';
 import express from "express";
-import authRoutes from './auth.js';
-import adminRoutes from './admin.js';
-import patientRoutes from './patient.js';
-import doctorRoutes from './doctor.js';
+import authRoutes from './auth';
+import adminRoutes from './admin';
+import patientRoutes from './patient';
+import doctorRoutes from './doctor';
 
 const router = express.Router();
 

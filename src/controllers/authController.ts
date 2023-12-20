@@ -1,5 +1,5 @@
-import auth from "../models/auth.js";
-import token from "../models/token.js";
+import auth from "../models/auth";
+import token from "../models/token";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 const saltRounds = 10;

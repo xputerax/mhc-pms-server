@@ -1,7 +1,7 @@
 import express from "express";
-import { uploadPrescription } from "../controllers/doctor.js";
-import middleware from "../middlewares/index.js";
-import handleFileUpload from "../middlewares/handleMulter.js";
+import { uploadPrescription } from "../controllers/doctor";
+import middleware from "../middlewares/index";
+import handleFileUpload from "../middlewares/handleMulter";
 
 const router = express.Router();
 

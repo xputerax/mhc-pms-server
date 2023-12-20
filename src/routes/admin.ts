@@ -1,5 +1,5 @@
 import express from "express";
-import middleware from "../middlewares/index.js";
+import middleware from "../middlewares/index";
 
 import {
   docList,
@@ -10,7 +10,7 @@ import {
   reject,
   generateStats,
   patientFeedbacks,
-} from "../controllers/admin.js";
+} from "../controllers/admin";
 
 const router = express.Router();
 
@@ -46,4 +46,4 @@ router.get("/patient/feedbacks", middleware, (req, res) => {
   patientFeedbacks(req, res);
 });
 
-module.exports = router;
+export default router;

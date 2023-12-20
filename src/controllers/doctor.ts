@@ -1,4 +1,4 @@
-import appointment from "../models/appointment.js";
+import appointment from "../models/appointment";
 import * as path from "path";
 const file_path = path.join("/public/uploads");
 

@@ -1,8 +1,8 @@
 import multer from "multer";
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 import path, { dirname } from "path";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 const UPLOAD_PATH = path.join("/public/uploads");
 
 const storage = multer.diskStorage({

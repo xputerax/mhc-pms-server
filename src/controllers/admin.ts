@@ -1,6 +1,6 @@
-import doctorList from "../models/doctorList.js";
-import auth from "../models/auth.js";
-import appointment from "../models/appointment.js";
+import doctorList from "../models/doctorList";
+import auth from "../models/auth";
+import appointment from "../models/appointment";
 
 const docList = async (req, res) => {
   try {

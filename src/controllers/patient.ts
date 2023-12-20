@@ -1,4 +1,4 @@
-import appointment from "../models/appointment.js";
+import appointment from "../models/appointment";
 
 const bookAppointment = async (req, res) => {
   try {
@@ -198,7 +198,7 @@ const writeFeedback = async (req, res) => {
 
 const deleteFeedback = async (req, res) => {
 
-  
+
   const filter = {
     $and: [
       { patientEmail: req.body.patientEmail },
@@ -256,7 +256,7 @@ const deleteFeedback = async (req, res) => {
       .json({ error: true, errorMsg: "Internal Server Error!" });
   }
 
-  
+
 
 };
 

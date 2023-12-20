@@ -2,7 +2,7 @@ import "./env";
 import "./config/db";
 import express from "express";
 import cors from "cors";
-import api from "../routes/index.js";
+import api from "./routes/index";
 import morgan from "morgan";
 // import fs from 'fs';
 // import { fileURLToPath } from "url";

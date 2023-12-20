@@ -1,5 +1,15 @@
 import express from "express";
-import middleware from "../middlewares/index.js";
+import middleware from "../middlewares/index";
+import {
+  bookAppointment,
+  duePayment,
+  makePayment,
+  myAppointments,
+  cancelAppointment,
+  prescriptions,
+  writeFeedback,
+  deleteFeedback,
+} from '../controllers/patient';
 
 const router = express.Router();
 

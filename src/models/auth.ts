@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import Token from "./token.js";
+import Token from "./token";
 const { ACCESS_SECRET, REFRESH_SECRET } = process.env;
 
 const authSchema = new mongoose.Schema({
