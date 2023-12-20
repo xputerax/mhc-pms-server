@@ -1,5 +1,4 @@
 import express from 'express';
-
 import doctorList from "../models/doctorList";
 import auth from "../models/auth";
 import appointment from "../models/appointment";
@@ -7,11 +6,8 @@ import appointment from "../models/appointment";
 const docList = async (req: express.Request, res: express.Response) => {
   try {
     const dlist = await doctorList.find({});
-    if (dlist.length > 0) {
-      return res.status(200).json(dlist);
-    } else {
-      return res.status(404).json({ error: true, errorMsg: "List not found!" });
-    }
+
+    return res.status(200).json(dlist);
   } catch (error) {
     console.error(error);
     return res
@@ -64,13 +60,8 @@ const updateFee = async (req: express.Request, res: express.Response) => {
 const unverified = async (req: express.Request, res: express.Response) => {
   try {
     const unvUsers = await auth.find({ verified: false });
-    if (unvUsers.length > 0) {
-      res.status(200).json(unvUsers);
-    } else {
-      res
-        .status(404)
-        .json({ error: true, errorMsg: "No Unverified User found!" });
-    }
+
+    return res.status(200).json(unvUsers);
   } catch (error) {
     console.error(error);
     return res
@@ -187,13 +178,7 @@ const generateStats = async (req: express.Request, res: express.Response) => {
 const patientFeedbacks = async (req: express.Request, res: express.Response) => {
   try {
     const feedbacks = await appointment.find({ feedback: true });
-    if (feedbacks.length > 0) {
-      return res.status(200).json(feedbacks);
-    } else {
-      return res
-        .status(404)
-        .json({ error: true, errorMsg: "Unable to load feedbacks!" });
-    }
+    return res.status(200).json(feedbacks);
   } catch (error) {
     console.error(error);
     return res
