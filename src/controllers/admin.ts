@@ -1,8 +1,10 @@
+import express from 'express';
+
 import doctorList from "../models/doctorList";
 import auth from "../models/auth";
 import appointment from "../models/appointment";
 
-const docList = async (req, res) => {
+const docList = async (req: express.Request, res: express.Response) => {
   try {
     const dlist = await doctorList.find({});
     if (dlist.length > 0) {
@@ -18,7 +20,7 @@ const docList = async (req, res) => {
   }
 };
 
-const addNew = async (req, res) => {
+const addNew = async (req: express.Request, res: express.Response) => {
   try {
     const newDoctor = req.body;
     await doctorList.create(newDoctor);
@@ -33,7 +35,7 @@ const addNew = async (req, res) => {
   }
 };
 
-const updateFee = async (req, res) => {
+const updateFee = async (req: express.Request, res: express.Response) => {
   const filter = { docName: req.body.docName };
   const newFee = parseInt(req.body.fee);
   try {
@@ -59,7 +61,7 @@ const updateFee = async (req, res) => {
   }
 };
 
-const unverified = async (req, res) => {
+const unverified = async (req: express.Request, res: express.Response) => {
   try {
     const unvUsers = await auth.find({ verified: false });
     if (unvUsers.length > 0) {
@@ -77,7 +79,7 @@ const unverified = async (req, res) => {
   }
 };
 
-const verify = async (req, res) => {
+const verify = async (req: express.Request, res: express.Response) => {
   try {
     const filter = { email: req.body.email };
     const verifiedUser = await auth.findOneAndUpdate(
@@ -102,7 +104,7 @@ const verify = async (req, res) => {
   }
 };
 
-const reject = async (req, res) => {
+const reject = async (req: express.Request, res: express.Response) => {
   try {
     const filter = { email: req.body.email };
     auth.deleteOne(filter, (err) => {
@@ -123,7 +125,7 @@ const reject = async (req, res) => {
   }
 };
 
-const generateStats = async (req, res) => {
+const generateStats = async (req: express.Request, res: express.Response) => {
   try {
     const users = await auth.find({});
     const docList = await doctorList.find({});
@@ -182,7 +184,7 @@ const generateStats = async (req, res) => {
   }
 };
 
-const patientFeedbacks = async (req, res) => {
+const patientFeedbacks = async (req: express.Request, res: express.Response) => {
   try {
     const feedbacks = await appointment.find({ feedback: true });
     if (feedbacks.length > 0) {
