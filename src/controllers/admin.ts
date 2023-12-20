@@ -123,7 +123,7 @@ const generateStats = async (req: express.Request, res: express.Response) => {
     const docList = await doctorList.find({});
     const feedbacks = await appointment.find({ feedback: true });
     if (users.length > 0 && docList.length > 0) {
-      const patients = users.filter((user) => user.userType === "patient");
+      const patients = users.filter((user) => user.userType === userType.TYPE_PATIENT);
       const doctors = users.filter(
         (user) => user.userType === userType.TYPE_DOCTOR && user.verified
       );
