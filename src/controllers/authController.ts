@@ -1,3 +1,4 @@
+import express from 'express';
 import auth from "../models/auth";
 import token from "../models/token";
 import jwt from "jsonwebtoken";
@@ -5,7 +6,7 @@ import bcrypt from "bcrypt";
 const saltRounds = 10;
 const { ACCESS_SECRET, REFRESH_SECRET } = process.env;
 
-const signup = async (req, res) => {
+const signup = async (req: express.Request, res: express.Response) => {
   try {
     auth.findOne({ email: req.body.email }, (err, foundEmail) => {
       if (err) {
@@ -45,7 +46,7 @@ const signup = async (req, res) => {
   }
 };
 
-const signin = (req, res) => {
+const signin = (req: express.Request, res: express.Response) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
@@ -96,7 +97,7 @@ const signin = (req, res) => {
   }
 };
 
-const generateRefreshToken = async (req, res) => {
+const generateRefreshToken = async (req: express.Request, res: express.Response) => {
   try {
     const { refreshToken } = req.body;
     if (!refreshToken) {
@@ -123,7 +124,7 @@ const generateRefreshToken = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
+const logout = async (req: express.Request, res: express.Response) => {
   try {
     const { refreshToken } = req.body;
     await token.findOneAndDelete({ token: refreshToken });
