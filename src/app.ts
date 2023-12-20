@@ -1,5 +1,5 @@
 import "./env";
-import "../config/db.js";
+import "./config/db";
 import express from "express";
 import cors from "cors";
 import api from "../routes/index.js";
