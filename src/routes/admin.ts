@@ -1,5 +1,5 @@
 import express from "express";
-import middleware from "../middlewares/index";
+import authMiddleware from "../middlewares/index";
 
 import {
   docList,
@@ -14,36 +14,13 @@ import {
 
 const router = express.Router();
 
-router.get("/doctor/list", middleware, (req, res) => {
-  docList(req, res);
-});
-
-router.post("/doctor/new", middleware, (req, res) => {
-  addNew(req, res);
-});
-
-router.post("/doctor/fee", middleware, (req, res) => {
-  updateFee(req, res);
-});
-
-router.get("/users/unverified", middleware, (req, res) => {
-  unverified(req, res);
-});
-
-router.post("/users/unverified/verify", middleware, (req, res) => {
-  verify(req, res);
-});
-
-router.delete("/users/unverified/reject", middleware, (req, res) => {
-  reject(req, res);
-});
-
-router.get("/generate/stats", middleware, (req, res) => {
-  generateStats(req, res);
-});
-
-router.get("/patient/feedbacks", middleware, (req, res) => {
-  patientFeedbacks(req, res);
-});
+router.get("/doctor/list", authMiddleware, docList);
+router.post("/doctor/new", authMiddleware, addNew);
+router.post("/doctor/fee", authMiddleware, updateFee);
+router.get("/users/unverified", authMiddleware, unverified);
+router.post("/users/unverified/verify", authMiddleware, verify);
+router.delete("/users/unverified/reject", authMiddleware, reject);
+router.get("/generate/stats", authMiddleware, generateStats);
+router.get("/patient/feedbacks", authMiddleware, patientFeedbacks);
 
 export default router;
