@@ -1,18 +1,17 @@
-import "./env.js";
-import "./config/db.js";
+import "./env";
+import "../config/db.js";
 import express from "express";
 import cors from "cors";
-import api from "./routes/index.js";
-
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+import api from "../routes/index.js";
 import morgan from "morgan";
+// import fs from 'fs';
+// import { fileURLToPath } from "url";
+// import path, { dirname } from "path";
 
-import fs from "fs";
-fs.mkdirSync(path.join(__dirname, "public", "uploads"), { recursive: true });
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+
+// fs.mkdirSync(path.join(__dirname, "public", "uploads"), { recursive: true });
 
 const app = express();
 
