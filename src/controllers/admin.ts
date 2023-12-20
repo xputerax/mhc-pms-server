@@ -117,6 +117,7 @@ const reject = async (req: express.Request, res: express.Response) => {
   }
 };
 
+// TODO: can refactor - rename variables
 const generateStats = async (req: express.Request, res: express.Response) => {
   try {
     const users = await auth.find({});
@@ -124,15 +125,15 @@ const generateStats = async (req: express.Request, res: express.Response) => {
     const feedbacks = await appointment.find({ feedback: true });
     if (users.length > 0 && docList.length > 0) {
       const patients = users.filter((user) => user.userType === userType.TYPE_PATIENT);
-      const doctors = users.filter(
+      const verifiedDoctors = users.filter(
         (user) => user.userType === userType.TYPE_DOCTOR && user.verified
       );
-      const staffs = users.filter(
+      const verifiedStaffs = users.filter(
         (user) => user.userType === userType.TYPE_STAFF && user.verified
       );
-      const nop = patients.length;
-      const nod = doctors.length;
-      const nos = staffs.length;
+      const patientCount = patients.length;
+      const doctorCount = verifiedDoctors.length;
+      const staffCount = verifiedStaffs.length;
       let mwd = docList[0].wIds.length;
       docList.forEach((doc) => {
         if (doc.wIds.length > mwd) {
@@ -162,7 +163,7 @@ const generateStats = async (req: express.Request, res: express.Response) => {
 
       return res
         .status(200)
-        .json({ mrd: mrd ? mrd : "N/A", nop, nod, nos, dmwd });
+        .json({ mrd: mrd ? mrd : "N/A", nop: patientCount, nod: doctorCount, nos: staffCount, dmwd });
     } else {
       return res
         .status(404)
