@@ -2,6 +2,7 @@ import express from 'express';
 import doctorList from "../models/doctorList";
 import auth from "../models/auth";
 import appointment from "../models/appointment";
+import userType from '../utils/userType';
 
 const docList = async (req: express.Request, res: express.Response) => {
   try {
@@ -124,10 +125,10 @@ const generateStats = async (req: express.Request, res: express.Response) => {
     if (users.length > 0 && docList.length > 0) {
       const patients = users.filter((user) => user.userType === "patient");
       const doctors = users.filter(
-        (user) => user.userType === "doctor" && user.verified
+        (user) => user.userType === userType.TYPE_DOCTOR && user.verified
       );
       const staffs = users.filter(
-        (user) => user.userType === "staff" && user.verified
+        (user) => user.userType === userType.TYPE_STAFF && user.verified
       );
       const nop = patients.length;
       const nod = doctors.length;
