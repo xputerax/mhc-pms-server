@@ -1,9 +1,14 @@
+import express from 'express';
 import appointment from "../models/appointment";
 import * as path from "path";
 const file_path = path.join("/public/uploads");
 
-const uploadPrescription = async (req, res) => {
-  const uploaded_path = path.join(file_path, "/", req.file.filename);
+interface UploadPrescriptionRequest extends express.Request {
+  file: any;
+}
+
+const uploadPrescription = async (req: express.Request, res: express.Response) => {
+  const uploaded_path = path.join(file_path, "/", (req as UploadPrescriptionRequest).file.filename);
   const filter = {
     $and: [
       { patientEmail: req.body.patientEmail },
