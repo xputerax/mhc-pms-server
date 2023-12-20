@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
 
-const doctorListSchema = new mongoose.Schema({
+export type Doctor = {
+  docName: string,
+  email: string,
+  degree: string,
+  wdays: string,
+  fee: number,
+  wIds: number[],
+}
+
+const doctorListSchema = new mongoose.Schema<Doctor>({
   docName: String,
   email: String,
   degree: String,
