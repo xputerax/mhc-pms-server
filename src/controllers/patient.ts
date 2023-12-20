@@ -225,13 +225,12 @@ const deleteFeedback = async (req: express.Request, res: express.Response) => {
         error: false,
         msg: "Feedback Deleted!",
       });
-    } else {
-      return res.status(404).json({
-        error: true,
-        errorMsg: "Feedback not found or already deleted.",
-      });
     }
 
+    return res.status(404).json({
+      error: true,
+      errorMsg: "Feedback not found or already deleted.",
+    });
   } catch (error) {
     console.error(error);
     return res
