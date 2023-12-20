@@ -65,13 +65,7 @@ const makePayment = async (req: express.Request, res: express.Response) => {
 const myAppointments = async (req: express.Request, res: express.Response) => {
   try {
     const appointments = await appointment.find({ payment: true });
-    if (appointments.length > 0) {
-      return res.status(200).json(appointments);
-    } else {
-      return res
-        .status(404)
-        .json({ error: true, errorMsg: "No appointment found!" });
-    }
+    return res.status(200).json(appointments);
   } catch (error) {
     console.error(error);
     return res
