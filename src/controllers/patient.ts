@@ -1,6 +1,8 @@
 import express from 'express';
 import appointment from "../models/appointment";
 
+// TODO: request schema typehint
+// TODO: form validation before creating document
 const bookAppointment = async (req: express.Request, res: express.Response) => {
   try {
     const newAppointment = req.body;

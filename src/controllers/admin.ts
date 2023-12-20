@@ -17,6 +17,8 @@ const docList = async (req: express.Request, res: express.Response) => {
   }
 };
 
+// TODO: form validation
+// TODO: request schema typehint
 const addNew = async (req: express.Request, res: express.Response) => {
   try {
     const newDoctor = req.body;
@@ -33,7 +35,7 @@ const addNew = async (req: express.Request, res: express.Response) => {
 };
 
 const updateFee = async (req: express.Request, res: express.Response) => {
-  const filter = { docName: req.body.docName };
+  const filter = { docName: req.body.docName }; // TODO: fucking stupid. filter it by the ID instead of name
   const newFee = parseInt(req.body.fee);
   try {
     const updated = await doctorList.findOneAndUpdate(
@@ -123,6 +125,7 @@ const generateStats = async (req: express.Request, res: express.Response) => {
     const users = await auth.find({});
     const docList = await doctorList.find({});
     const feedbacks = await appointment.find({ feedback: true });
+
     if (users.length > 0 && docList.length > 0) {
       const patients = users.filter((user) => user.userType === userType.TYPE_PATIENT);
       const verifiedDoctors = users.filter(

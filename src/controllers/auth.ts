@@ -18,6 +18,7 @@ interface SignUpRequest extends express.Request {
   }
 }
 
+// TODO: implement request validation before saving to DB
 const signup = async (req: SignUpRequest, res: express.Response) => {
   try {
     const foundEmail = await auth.findOne({ email: req.body.email })
@@ -52,7 +53,14 @@ const signup = async (req: SignUpRequest, res: express.Response) => {
   }
 };
 
-const signin = async (req: express.Request, res: express.Response) => {
+interface SignInRequest extends express.Request {
+  body: {
+    email?: string,
+    password?: string,
+  }
+}
+
+const signin = async (req: SignInRequest, res: express.Response) => {
   const { email, password } = req.body;
 
   try {
@@ -97,7 +105,13 @@ const signin = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const generateRefreshToken = async (req: express.Request, res: express.Response) => {
+interface GenerateRefreshTokenRequest extends express.Request {
+  body: {
+    refreshToken?: string,
+  }
+}
+
+const generateRefreshToken = async (req: GenerateRefreshTokenRequest, res: express.Response) => {
   try {
     const { refreshToken } = req.body;
 
@@ -118,7 +132,7 @@ const generateRefreshToken = async (req: express.Request, res: express.Response)
     const payload = jwt.verify(storedToken.token, REFRESH_SECRET);
     const accessToken = jwt.sign(payload, ACCESS_SECRET);
 
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({ accessToken: accessToken });
   } catch (error) {
     console.error(error);
     return res
@@ -127,7 +141,14 @@ const generateRefreshToken = async (req: express.Request, res: express.Response)
   }
 };
 
-const logout = async (req: express.Request, res: express.Response) => {
+interface LogoutRequest extends express.Request {
+  body: {
+    refreshToken?: string,
+  }
+}
+
+// TODO: check token ownership before deleting
+const logout = async (req: LogoutRequest, res: express.Response) => {
   try {
     const { refreshToken } = req.body;
     await token.findOneAndDelete({ token: refreshToken });
