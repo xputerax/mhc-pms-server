@@ -1,6 +1,7 @@
+import express from 'express';
 import appointment from "../models/appointment";
 
-const bookAppointment = async (req, res) => {
+const bookAppointment = async (req: express.Request, res: express.Response) => {
   try {
     const newAppointment = req.body;
     await appointment.create(newAppointment);
@@ -16,16 +17,10 @@ const bookAppointment = async (req, res) => {
   }
 };
 
-const duePayment = async (req, res) => {
+const duePayment = async (req: express.Request, res: express.Response) => {
   try {
     const unpaid = await appointment.find({ payment: false });
-    if (unpaid.length > 0) {
-      return res.status(200).json(unpaid);
-    } else {
-      return res
-        .status(404)
-        .json({ error: true, errorMsg: "No payment found due!" });
-    }
+    return res.status(200).json(unpaid);
   } catch (error) {
     console.error(error);
     return res
@@ -34,7 +29,7 @@ const duePayment = async (req, res) => {
   }
 };
 
-const makePayment = async (req, res) => {
+const makePayment = async (req: express.Request, res: express.Response) => {
   const filter = {
     $and: [
       { patientEmail: req.body.patientEmail },
@@ -67,7 +62,7 @@ const makePayment = async (req, res) => {
   }
 };
 
-const myAppointments = async (req, res) => {
+const myAppointments = async (req: express.Request, res: express.Response) => {
   try {
     const appointments = await appointment.find({ payment: true });
     if (appointments.length > 0) {
@@ -85,7 +80,7 @@ const myAppointments = async (req, res) => {
   }
 };
 
-const cancelAppointment = async (req, res) => {
+const cancelAppointment = async (req: express.Request, res: express.Response) => {
   const filter = {
     $and: [
       { patientEmail: req.body.patientEmail },
@@ -114,7 +109,7 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
-const prescriptions = async (req, res) => {
+const prescriptions = async (req: express.Request, res: express.Response) => {
   try {
     const prescriptions = await appointment.find({ prescribed: true });
     if (prescriptions.length > 0) {
@@ -132,7 +127,7 @@ const prescriptions = async (req, res) => {
   }
 };
 
-const writeFeedback = async (req, res) => {
+const writeFeedback = async (req: express.Request, res: express.Response) => {
   const { review } = req.body.review;
   const { rating } = req.body.rating;
 
@@ -196,7 +191,7 @@ const writeFeedback = async (req, res) => {
   }
 };
 
-const deleteFeedback = async (req, res) => {
+const deleteFeedback = async (req: express.Request, res: express.Response) => {
 
 
   const filter = {
