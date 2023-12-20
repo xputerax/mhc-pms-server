@@ -106,13 +106,7 @@ const cancelAppointment = async (req: express.Request, res: express.Response) =>
 const prescriptions = async (req: express.Request, res: express.Response) => {
   try {
     const prescriptions = await appointment.find({ prescribed: true });
-    if (prescriptions.length > 0) {
-      return res.status(200).json(prescriptions);
-    } else {
-      return res
-        .status(404)
-        .json({ error: true, errorMsg: "No prescription found!" });
-    }
+    return res.status(200).json(prescriptions);
   } catch (error) {
     console.error(error);
     return res
