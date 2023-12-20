@@ -1,9 +1,26 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import jwt from "jsonwebtoken";
 import Token from "./token";
 const { ACCESS_SECRET, REFRESH_SECRET } = process.env;
 
-const authSchema = new mongoose.Schema({
+export type Auth = {
+  userType: string,
+  fname: string,
+  lname: string,
+  degree: string,
+  email: string,
+  password: string,
+  verified: boolean,
+}
+
+interface AuthMethods {
+  createAccessToken(): string,
+  createRefreshToken(): Promise<String>,
+}
+
+type AuthModel = Model<Auth, {}, AuthMethods>
+
+export const AuthSchema = new mongoose.Schema<Auth, AuthModel, AuthMethods>({
   userType: String,
   fname: String,
   lname: String,
@@ -22,13 +39,13 @@ const authSchema = new mongoose.Schema({
   },
 });
 
-authSchema.methods = {
-  createAccessToken: async (foundUser) => {
+AuthSchema.methods = {
+  createAccessToken: function (this: Auth): string {
     try {
       let payload = {
-        userType: foundUser.userType,
-        email: foundUser.email,
-        name: foundUser.fname,
+        userType: this.userType,
+        email: this.email,
+        name: this.fname,
       };
       let accessToken = jwt.sign(payload, ACCESS_SECRET, { expiresIn: "5m" });
       return accessToken;
@@ -38,12 +55,12 @@ authSchema.methods = {
     }
   },
 
-  createRefreshToken: async (foundUser) => {
+  createRefreshToken: async function (this: Auth): Promise<String> {
     try {
       let payload = {
-        userType: foundUser.userType,
-        email: foundUser.email,
-        name: foundUser.fname,
+        userType: this.userType,
+        email: this.email,
+        name: this.fname,
       };
       let refreshToken = jwt.sign(payload, REFRESH_SECRET, { expiresIn: "1d" });
       await new Token({ token: refreshToken }).save();
@@ -55,4 +72,4 @@ authSchema.methods = {
   },
 };
 
-export default mongoose.model("Auth", authSchema);
+export default mongoose.model("Auth", AuthSchema);
