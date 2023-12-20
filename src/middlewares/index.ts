@@ -1,11 +1,12 @@
 import express from 'express';
 import jwt from "jsonwebtoken";
+import { JwtPayload } from '../models/auth';
 
 const { ACCESS_SECRET } = process.env;
 const TOKEN_HEADER = "x-auth-token";
 
 export interface AuthedRequest extends express.Request {
-  user?: any;
+  user?: JwtPayload;
 }
 
 const checkAuth = (req: AuthedRequest, res: express.Response, next: () => void) => {
@@ -18,7 +19,7 @@ const checkAuth = (req: AuthedRequest, res: express.Response, next: () => void) 
   }
 
   try {
-    const payload = jwt.verify(token, ACCESS_SECRET);
+    const payload: JwtPayload = jwt.verify(token, ACCESS_SECRET) as any;
     req.user = payload;
     next();
   } catch (error) {
