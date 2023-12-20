@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-const tokenSchema = new mongoose.Schema({
+export type Token = {
+  token: string,
+}
+
+const tokenSchema = new mongoose.Schema<Token>({
   token: String,
 });
 
