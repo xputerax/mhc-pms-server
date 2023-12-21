@@ -1,11 +1,29 @@
 import express from 'express';
 import appointment from "../models/appointment";
 
-// TODO: request schema typehint
+interface BookAppointmentRequest extends express.Request {
+  body: {
+    patient?: string,
+    doctor?: string,
+    pemail?: string,
+    demail?: string,
+    date?: string,
+    doa?: string,
+  }
+}
+
 // TODO: form validation before creating document
-const bookAppointment = async (req: express.Request, res: express.Response) => {
+// TODO: wtf is doa?
+const bookAppointment = async (req: BookAppointmentRequest, res: express.Response) => {
   try {
-    const newAppointment = req.body;
+    const newAppointment = {
+      patient: req.body.patient,
+      doctor: req.body.doctor,
+      pemail: req.body.pemail,
+      demail: req.body.demail,
+      date: req.body.date,
+      doa: req.body.doa,
+    }
     await appointment.create(newAppointment);
     return res.status(201).json({
       error: false,
@@ -31,7 +49,16 @@ const duePayment = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const makePayment = async (req: express.Request, res: express.Response) => {
+interface MakePaymentRequest extends express.Request {
+  body: {
+    patientEmail?: string,
+    doctorEmail?: string,
+    appointmentDate?: string,
+  }
+}
+
+// TODO: form validation
+const makePayment = async (req: MakePaymentRequest, res: express.Response) => {
   const filter = {
     $and: [
       { patientEmail: req.body.patientEmail },
@@ -76,7 +103,15 @@ const myAppointments = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const cancelAppointment = async (req: express.Request, res: express.Response) => {
+interface CancelAppointmentRequest extends express.Request {
+  body: {
+    patientEmail?: string,
+    doctorEmail?: string,
+    appointmentDate?: string,
+  }
+}
+
+const cancelAppointment = async (req: CancelAppointmentRequest, res: express.Response) => {
   const filter = {
     $and: [
       { patientEmail: req.body.patientEmail },
@@ -105,6 +140,7 @@ const cancelAppointment = async (req: express.Request, res: express.Response) =>
   }
 };
 
+// TODO: response schema
 const prescriptions = async (req: express.Request, res: express.Response) => {
   try {
     const prescriptions = await appointment.find({ prescribed: true });
@@ -117,11 +153,18 @@ const prescriptions = async (req: express.Request, res: express.Response) => {
   }
 };
 
-// TODO: proper form validation
-// TODO: request schema
-const writeFeedback = async (req: express.Request, res: express.Response) => {
-  const { review } = req.body.review;
-  const { rating } = req.body.rating;
+interface WriteFeedbackRequest extends express.Request {
+  body: {
+    review?: string,
+    rating?: string,
+    patientEmail?: string,
+    doctorEmail?: string,
+    appointmentDate?: string,
+  }
+}
+
+const writeFeedback = async (req: WriteFeedbackRequest, res: express.Response) => {
+  const { review, rating } = req.body;
 
   // Perform backend validation - ryan
   // check blank and empty feedback
@@ -183,7 +226,15 @@ const writeFeedback = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const deleteFeedback = async (req: express.Request, res: express.Response) => {
+interface DeleteFeedbackRequest extends express.Request {
+  body: {
+    patientEmail?: string,
+    doctorEmail?: string,
+    appointmentDate?: string,
+  }
+}
+
+const deleteFeedback = async (req: DeleteFeedbackRequest, res: express.Response) => {
 
 
   const filter = {
