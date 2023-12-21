@@ -4,6 +4,7 @@ import auth from "../models/auth";
 import appointment from "../models/appointment";
 import userType from '../utils/userType';
 
+// TODO: response shape
 const docList = async (req: express.Request, res: express.Response) => {
   try {
     const dlist = await doctorList.find({});
@@ -17,11 +18,29 @@ const docList = async (req: express.Request, res: express.Response) => {
   }
 };
 
+interface AddNewDoctorRequest extends express.Request {
+  body: {
+    docName?: string,
+    email?: string,
+    degree?: string,
+    wdays?: string,
+    fee?: string,
+    wIds?: string,
+  }
+}
+
 // TODO: form validation
-// TODO: request schema typehint
-const addNew = async (req: express.Request, res: express.Response) => {
+const addNew = async (req: AddNewDoctorRequest, res: express.Response) => {
   try {
-    const newDoctor = req.body;
+    // const newDoctor = req.body;
+    const newDoctor = {
+      docName: req.body.docName,
+      email: req.body.email,
+      degree: req.body.degree,
+      wdays: req.body.wdays,
+      fee: req.body.fee,
+      wIds: req.body.wIds,
+    }
     await doctorList.create(newDoctor);
     return res
       .status(201)
@@ -34,7 +53,14 @@ const addNew = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const updateFee = async (req: express.Request, res: express.Response) => {
+interface UpdateFeeRequest extends express.Request {
+  body: {
+    docName?: string,
+    fee?: string,
+  }
+}
+
+const updateFee = async (req: UpdateFeeRequest, res: express.Response) => {
   const filter = { docName: req.body.docName }; // TODO: fucking stupid. filter it by the ID instead of name
   const newFee = parseInt(req.body.fee);
   try {
@@ -60,6 +86,7 @@ const updateFee = async (req: express.Request, res: express.Response) => {
   }
 };
 
+// TODO: response schema
 const unverified = async (req: express.Request, res: express.Response) => {
   try {
     const unvUsers = await auth.find({ verified: false });
@@ -73,7 +100,13 @@ const unverified = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const verify = async (req: express.Request, res: express.Response) => {
+interface VerifyUserRequest extends express.Request {
+  body: {
+    email?: string,
+  }
+}
+
+const verify = async (req: VerifyUserRequest, res: express.Response) => {
   try {
     const filter = { email: req.body.email };
     const verifiedUser = await auth.findOneAndUpdate(
@@ -98,7 +131,13 @@ const verify = async (req: express.Request, res: express.Response) => {
   }
 };
 
-const reject = async (req: express.Request, res: express.Response) => {
+interface RejectUserRequest extends express.Request {
+  body: {
+    email?: string,
+  }
+}
+
+const reject = async (req: RejectUserRequest, res: express.Response) => {
   try {
     const filter = { email: req.body.email };
     auth.deleteOne(filter, (err) => {
