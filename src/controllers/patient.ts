@@ -1,5 +1,8 @@
 import express from 'express';
-import appointment from "../models/appointment";
+import appointment, { Appointment } from "../models/appointment";
+import { AuthenticatedRequest } from './baseRequest';
+import userType from '../utils/userType';
+import appointmentRepository from '../repository/appointment.repository';
 
 interface BookAppointmentRequest extends express.Request {
   body: {
@@ -91,9 +94,25 @@ const makePayment = async (req: MakePaymentRequest, res: express.Response) => {
   }
 };
 
-const myAppointments = async (req: express.Request, res: express.Response) => {
+const myAppointments = async (req: AuthenticatedRequest, res: express.Response) => {
+  let appointments: Appointment[] = [];
+
+  if (req.user.userType == userType.TYPE_DOCTOR) {
+    appointments = await appointmentRepository.fetchForDoctor(req.user.email)
+  } else if (req.user.userType == userType.TYPE_PATIENT) {
+    appointments = await appointmentRepository.fetchForPatient(req.user.email);
+  } else if (req.user.userType == userType.TYPE_STAFF) {
+    appointments = await appointmentRepository.fetchAll();
+  } else {
+    console.log(`invalid user type received in endpoint myAppointments`)
+    console.log(req.user)
+    return res.json({
+      error: true,
+      errorMsg: `invalid user type`
+    })
+  }
+
   try {
-    const appointments = await appointment.find({ payment: true });
     return res.status(200).json(appointments);
   } catch (error) {
     console.error(error);
