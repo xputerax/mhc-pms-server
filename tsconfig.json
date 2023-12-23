@@ -3,9 +3,10 @@
         "outDir": "./dist",
         "rootDir": "./",
         "target": "ESNext",
-        "module": "CommonJS",
+        "module": "Node16",
         "skipLibCheck": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "moduleResolution": "Node16"
     },
     "include": [
         "src/"
