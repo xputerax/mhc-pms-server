@@ -4,14 +4,10 @@ import express from "express";
 import cors from "cors";
 import api from "./routes/index";
 import morgan from "morgan";
-// import fs from 'fs';
-// import { fileURLToPath } from "url";
-// import path, { dirname } from "path";
+import fs from 'fs';
+import path from "path";
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
-// fs.mkdirSync(path.join(__dirname, "public", "uploads"), { recursive: true });
+fs.mkdirSync(path.join(__dirname, "public", "uploads"), { recursive: true });
 
 const app = express();
 
