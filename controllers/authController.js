@@ -2,48 +2,50 @@ import auth from "../models/auth.js";
 import token from "../models/token.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import nodemailer from 'nodemailer';
 const saltRounds = 10;
 const { ACCESS_SECRET, REFRESH_SECRET } = process.env;
 
-const signup = async (req, res) => {
+const sendEmail = async (email, subject, text) => {
   try {
-    auth.findOne({ email: req.body.email }, (err, foundEmail) => {
-      if (err) {
-        console.log(err);
-        return res
-          .status(500)
-          .json({ error: true, errorMsg: "Internal Server Error!" });
-      } else {
-        if (foundEmail) {
-          return res.status(400).json({
-            error: true,
-            errorMsg: "That email is already registered!",
-          });
-        } else {
-          bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-            auth.create({
-              userType: req.body.userType,
-              fname: req.body.fname,
-              lname: req.body.lname,
-              degree: req.body.degr,
-              email: req.body.email,
-              password: hash,
-              verified: req.body.verified,
-            });
-            return res
-              .status(201)
-              .json({ error: false, msg: "Signup Successful!" });
-          });
-        }
-      }
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: 'loveinhomeapp@gmail.com', // your email address
+        pass: 'tenalkwjtbaomsyw', // your email password or app password
+      },
     });
+
+    await transporter.sendMail({
+      from: 'loveinhomeapp@gmail.com', // sender address
+      to: email, // list of receivers
+      subject: subject, // Subject line
+      text: text, // plain text body
+    });
+
+    console.log('Email sent successfully');
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ error: true, errorMsg: "Internal Server Error!" });
+    console.error('Error sending email:', error);
+    throw error;
   }
 };
+const signup = async (req, res) => {
+  try {
+    // Assuming req.body.email contains the email address where you want to send the email
+    await sendEmail(req.body.email, 'Welcome!', 'Thank you for signing up!');
+    console.log('Email sent successfully');
+
+    // Send a success response regardless of the email sending outcome
+    res.status(200).json({ error: false, msg: "Signup (email sending) Successful!" });
+  } catch (emailError) {
+    console.error('Email sending failed:', emailError);
+    res.status(200).json({ error: false, msg: "Signup (email sending) Successful, but encountered an issue!" });
+  }
+};
+
+
 
 const signin = (req, res) => {
   try {
