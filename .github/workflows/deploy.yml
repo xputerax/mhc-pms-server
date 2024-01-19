@@ -1,0 +1,47 @@
+name: Deploy App
+
+on:
+  push:
+    branches: [ "master", "ci-pipeline" ]
+  pull_request:
+    branches: [ "master", "ci-pipeline" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    # - run: yarn ci
+    - run: yarn
+    - run: yarn run build
+    - name: SSH Remote Commands
+      # You may pin to the exact commit or the version.
+      # uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.DEPLOY_SSH_IP }}
+        username: ${{ secrets.DEPLOY_SSH_USER }}
+        sync: true
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          export PATH=/home/mhcpms/.nvm/versions/node/v16.20.2/bin:$PATH
+          pm2 delete all
+          cd /home/mhcpms/application/server
+          git pull
+          yarn i
+          yarn build
+          pm2 start dist/src/app.js
+        # Enable debug mode.
+        debug: true
