@@ -36,12 +36,7 @@ jobs:
         sync: true
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         script: |
-          id
-          uname -a
-          echo $PATH
-          which pm2
-          which nvm
-          which yarn
+          export PATH=/home/mhcpms/.nvm/versions/node/v16.20.2/bin:$PATH
           pm2 delete all
           cd /home/mhcpms/application/server
           git pull
