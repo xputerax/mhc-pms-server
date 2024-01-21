@@ -36,6 +36,8 @@ jobs:
         sync: true
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         script: |
+          id
+          uname -a
           echo $PATH
           which pm2
           which nvm
