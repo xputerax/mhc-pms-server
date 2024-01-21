@@ -24,36 +24,36 @@ jobs:
         cache: 'npm'
     - run: yarn ci
     - run: yarn run build --if-present
-                - name: SSH Remote Commands
-  # You may pin to the exact commit or the version.
-  # uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262
-  uses: appleboy/ssh-action@v1.0.3
-  with:
-    # SSH host address.
-    host: ${{secrets.DEPLOY_SSH_IP}}
-    # SSH username.
-    username: ${{secrets.DEPLOY_SSH_USER}}
-    sync: true
-    # Content of the SSH private key. For example, the raw content of ~/.ssh/id_rsa.
-    key: ${{secrets.DEPLOY_SSH_KEY}}
-    # Commands to be executed.
-    script: |
-      pm2 delete all
-      cd /home/mhcpms/application/server
-      git pull
-      yarn i
-      yarn build
-      pm2 start dist/src/app.js
-    # Stop the script after the first failure.
-    script_stop: # optional
-    # Environment variables to be passed to the shell script.
-    envs: # optional
-    # Flexible configuration for environment value transfer.
-    envs_format: # optional
-    # Enable debug mode.
-    debug: true
-    # pass all environment variable to shell script.
-    allenvs: # optional
-    # Request a pseudo-terminal from the server.
-    request_pty: # optional
+    - name: SSH Remote Commands
+      # You may pin to the exact commit or the version.
+      # uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        # SSH host address.
+        host: ${{secrets.DEPLOY_SSH_IP}}
+        # SSH username.
+        username: ${{secrets.DEPLOY_SSH_USER}}
+        sync: true
+        # Content of the SSH private key. For example, the raw content of ~/.ssh/id_rsa.
+        key: ${{secrets.DEPLOY_SSH_KEY}}
+        # Commands to be executed.
+        script: |
+          pm2 delete all
+          cd /home/mhcpms/application/server
+          git pull
+          yarn i
+          yarn build
+          pm2 start dist/src/app.js
+        # Stop the script after the first failure.
+        script_stop: # optional
+        # Environment variables to be passed to the shell script.
+        envs: # optional
+        # Flexible configuration for environment value transfer.
+        envs_format: # optional
+        # Enable debug mode.
+        debug: true
+        # pass all environment variable to shell script.
+        allenvs: # optional
+        # Request a pseudo-terminal from the server.
+        request_pty: # optional
 
