@@ -2,9 +2,9 @@ name: Deploy App
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "ci-pipeline" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "ci-pipeline" ]
   workflow_dispatch:
 
 jobs:
