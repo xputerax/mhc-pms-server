@@ -40,7 +40,7 @@ jobs:
           pm2 delete all
           cd /home/mhcpms/application/server
           git pull
-          yarn i
+          yarn
           yarn build
           pm2 start dist/src/app.js
         # Enable debug mode.
