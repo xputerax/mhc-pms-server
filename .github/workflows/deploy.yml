@@ -36,6 +36,10 @@ jobs:
         sync: true
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         script: |
+          echo $PATH
+          which pm2
+          which nvm
+          which yarn
           pm2 delete all
           cd /home/mhcpms/application/server
           git pull
