@@ -31,14 +31,10 @@ jobs:
       # uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262
       uses: appleboy/ssh-action@v1.0.3
       with:
-        # SSH host address.
-        host: ${{mhcpms.DEPLOY_SSH_IP}}
-        # SSH username.
-        username: ${{mhcpms.DEPLOY_SSH_USER}}
+        host: ${{secrets.DEPLOY_SSH_IP}}
+        username: ${{secrets.DEPLOY_SSH_USER}}
         sync: true
-        # Content of the SSH private key. For example, the raw content of ~/.ssh/id_rsa.
-        key: ${{mhcpms.DEPLOY_SSH_KEY}}
-        # Commands to be executed.
+        key: ${{secrets.DEPLOY_SSH_KEY}}
         script: |
           pm2 delete all
           cd /home/mhcpms/application/server
@@ -46,16 +42,5 @@ jobs:
           yarn i
           yarn build
           pm2 start dist/src/app.js
-        # Stop the script after the first failure.
-        script_stop: # optional
-        # Environment variables to be passed to the shell script.
-        envs: # optional
-        # Flexible configuration for environment value transfer.
-        envs_format: # optional
         # Enable debug mode.
         debug: true
-        # pass all environment variable to shell script.
-        allenvs: # optional
-        # Request a pseudo-terminal from the server.
-        request_pty: # optional
-
