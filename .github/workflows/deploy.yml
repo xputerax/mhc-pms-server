@@ -32,12 +32,12 @@ jobs:
       uses: appleboy/ssh-action@v1.0.3
       with:
         # SSH host address.
-        host: ${{secrets.DEPLOY_SSH_IP}}
+        host: ${{mhcpms.DEPLOY_SSH_IP}}
         # SSH username.
-        username: ${{secrets.DEPLOY_SSH_USER}}
+        username: ${{mhcpms.DEPLOY_SSH_USER}}
         sync: true
         # Content of the SSH private key. For example, the raw content of ~/.ssh/id_rsa.
-        key: ${{secrets.DEPLOY_SSH_KEY}}
+        key: ${{mhcpms.DEPLOY_SSH_KEY}}
         # Commands to be executed.
         script: |
           pm2 delete all
